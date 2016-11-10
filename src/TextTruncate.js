@@ -141,10 +141,12 @@ export default class TextTruncate extends Component {
             );
         }
         return (
-            <tagName {...props}>
-                {text.substr(0, startPos) + truncateText + ' '}
-                {textTruncateChild}
-            </tagName>
+            React.createElement(
+                tagName,
+                props,
+                text.substr(0, startPos) + truncateText + ' ',
+                textTruncateChild
+            );
         );
 
     }
