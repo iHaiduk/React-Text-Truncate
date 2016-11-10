@@ -6,15 +6,13 @@ export default class TextTruncate extends Component {
         line: React.PropTypes.number,
         text: React.PropTypes.string,
         textTruncateChild: React.PropTypes.node,
-        truncateText: React.PropTypes.string,
-        tagName: React.PropTypes.string
+        truncateText: React.PropTypes.string
     };
 
     static defaultProps = {
         line: 1,
         text: '',
-        truncateText: '…',
-        tagName: 'div'
+        truncateText: '…'
     };
 
     componentDidMount() {
@@ -58,7 +56,6 @@ export default class TextTruncate extends Component {
             text,
             textTruncateChild,
             truncateText,
-            tagName,
             ...props
         } = this.props;
 
@@ -72,7 +69,7 @@ export default class TextTruncate extends Component {
         // return if all of text can be displayed
         if (scopeWidth >= this.measureWidth(text)) {
             return (
-                <div {...props}>{text}</div>
+                <span {...props}>{text}</span>
             );
         }
 
@@ -141,12 +138,10 @@ export default class TextTruncate extends Component {
             );
         }
         return (
-            React.createElement(
-                tagName,
-                props,
-                text.substr(0, startPos) + truncateText + ' ',
-                textTruncateChild
-            );
+            <h1 {...props}>
+                {text.substr(0, startPos) + truncateText + ' '}
+                {textTruncateChild}
+            </h1>
         );
 
     }
@@ -163,9 +158,11 @@ export default class TextTruncate extends Component {
         }
 
         return (
-            <div ref='scope' className={containerClassName} style={{overflow: 'hidden'}}>
-                {renderText}
-            </div>
-        );
+            React.createElement(
+                'p',
+                { ref: 'scope', className: containerClassName, style: { overflow: 'hidden' } },
+                renderText
+            );
+    );
     }
 };
