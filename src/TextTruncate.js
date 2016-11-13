@@ -6,13 +6,15 @@ export default class TextTruncate extends Component {
         line: React.PropTypes.number,
         text: React.PropTypes.string,
         textTruncateChild: React.PropTypes.node,
-        truncateText: React.PropTypes.string
+        truncateText: React.PropTypes.string,
+        tagType: React.PropTypes.string
     };
 
     static defaultProps = {
         line: 1,
         text: '',
-        truncateText: '…'
+        truncateText: '…',
+        tagType: 'div'
     };
 
     componentDidMount() {
@@ -56,6 +58,7 @@ export default class TextTruncate extends Component {
             text,
             textTruncateChild,
             truncateText,
+            tagType,
             ...props
         } = this.props;
 
@@ -106,7 +109,7 @@ export default class TextTruncate extends Component {
                         currentPos = splitPos;
                     }
                 } else {
-                    do  {
+                    do {
                         currentPos--;
                         truncatedText = text.substr(startPos, currentPos);
                         if (truncatedText[truncatedText.length - 1] === ' ') {
@@ -137,11 +140,12 @@ export default class TextTruncate extends Component {
                 text
             );
         }
-        return (
-            <h1 {...props}>
-                {text.substr(0, startPos) + truncateText + ' '}
-                {textTruncateChild}
-            </h1>
+
+        return React.createElement(
+            'span',
+            props,
+            text.substr(0, startPos) + truncateText + ' ',
+            textTruncateChild
         );
 
     }
@@ -150,6 +154,7 @@ export default class TextTruncate extends Component {
         const {
             text,
             containerClassName,
+            tagType
         } = this.props;
 
         let renderText = text;
@@ -159,10 +164,10 @@ export default class TextTruncate extends Component {
 
         return (
             React.createElement(
-                'p',
-                { ref: 'scope', className: containerClassName, style: { overflow: 'hidden' } },
+                tagType,
+                {ref: 'scope', className: containerClassName, style: {overflow: 'hidden'}},
                 renderText
-            );
-    );
+            )
+        )
     }
 };
