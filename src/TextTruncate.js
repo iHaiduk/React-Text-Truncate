@@ -5,7 +5,6 @@ export default class TextTruncate extends Component {
         containerClassName: React.PropTypes.string,
         line: React.PropTypes.number,
         text: React.PropTypes.string,
-        textTruncateChild: React.PropTypes.node,
         truncateText: React.PropTypes.string,
         tagType: React.PropTypes.string,
         cutText: React.PropTypes.bool
@@ -58,9 +57,9 @@ export default class TextTruncate extends Component {
             containerClassName,
             line,
             text,
-            textTruncateChild,
             truncateText,
             tagType,
+            cutText,
             ...props
         } = this.props;
 
@@ -79,13 +78,6 @@ export default class TextTruncate extends Component {
         }
 
         let childText = '';
-        if (textTruncateChild && typeof textTruncateChild.type === 'string') {
-            let type = textTruncateChild.type;
-            if (type.indexOf('span') >= 0 || type.indexOf('a') >= 0) {
-                childText = textTruncateChild.props.children;
-            }
-        }
-
         let currentPos = 1;
         let maxTextLength = text.length;
         let truncatedText = '';
@@ -137,18 +129,7 @@ export default class TextTruncate extends Component {
             }
         }
 
-        if (startPos === maxTextLength) {
-            return (
-                text
-            );
-        }
-
-        return React.createElement(
-            'span',
-            props,
-            text.substr(0, startPos) + truncateText + ' ',
-            textTruncateChild
-        );
+        return startPos !== maxTextLength && cutText ? text.substr(0, startPos) + truncateText + ' ' : text;
 
     }
 
@@ -156,8 +137,7 @@ export default class TextTruncate extends Component {
         const {
             text,
             containerClassName,
-            tagType,
-            cutText
+            tagType
         } = this.props;
 
         let renderText = text;
@@ -166,14 +146,11 @@ export default class TextTruncate extends Component {
         }
 
         return (
-            cutText ?
                 React.createElement(
                     tagType,
                     {ref: 'scope', className: containerClassName, style: {overflow: 'hidden'}},
                     renderText
                 )
-            :
-                renderText
         )
     }
 };

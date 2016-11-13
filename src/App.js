@@ -39,6 +39,9 @@ export class App extends Component {
             );
         }
 
+        let customPR = Object.assign({}, props);
+        customPR.cutText = true;
+
         return (
             <div className='row'>
                 <div className='col-md-6 col-xs-12'>
@@ -64,7 +67,7 @@ export class App extends Component {
                     <h4>Result</h4>
                     <div id='sample-1'>
                         <h5>1. Default</h5>
-                        <TextTruncate {...props}/>
+                        <TextTruncate {...customPR}/>
                     </div>
                     <div id='sample-2'>
                         <h5>2. With floating image</h5>
