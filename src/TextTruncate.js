@@ -7,14 +7,16 @@ export default class TextTruncate extends Component {
         text: React.PropTypes.string,
         textTruncateChild: React.PropTypes.node,
         truncateText: React.PropTypes.string,
-        tagType: React.PropTypes.string
+        tagType: React.PropTypes.string,
+        cutText: React.PropTypes.bool
     };
 
     static defaultProps = {
         line: 1,
         text: '',
         truncateText: '…',
-        tagType: 'div'
+        tagType: 'div',
+        cutText: false
     };
 
     componentDidMount() {
@@ -154,7 +156,8 @@ export default class TextTruncate extends Component {
         const {
             text,
             containerClassName,
-            tagType
+            tagType,
+            cutText
         } = this.props;
 
         let renderText = text;
@@ -163,11 +166,14 @@ export default class TextTruncate extends Component {
         }
 
         return (
-            React.createElement(
-                tagType,
-                {ref: 'scope', className: containerClassName, style: {overflow: 'hidden'}},
+            cutText ?
+                React.createElement(
+                    tagType,
+                    {ref: 'scope', className: containerClassName, style: {overflow: 'hidden'}},
+                    renderText
+                )
+            :
                 renderText
-            )
         )
     }
 };
