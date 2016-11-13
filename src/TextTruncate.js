@@ -2,10 +2,7 @@ import React, {Component} from 'react';
 
 export default class TextTruncate extends Component {
     static propTypes = {
-        containerClassName: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.func
-        ]),
+        containerClassName: React.PropTypes.any,
         line: React.PropTypes.number,
         text: React.PropTypes.string,
         truncateText: React.PropTypes.string,
